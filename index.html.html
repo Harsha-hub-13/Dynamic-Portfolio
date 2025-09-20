@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harsha Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="#" class="logo">Name</a>
+    <nav class="navbar">
+      <a href="#home">
+        <active style="color: #08d665;">Home</active>
+      </a>
+      <a href="#home">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#project">Projects</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
+      <a href="form.html" target="_blank">✏️ Edit Portfolio</a>
+    </nav>
+  </header>
+
+  <section class="home" id="home">
+    <div class="home-content">
+      <h3 style="color: #08d665">Hi there</h3>
+      <h1 style="color: rgb(0, 0, 0);">I am a Web Developer</h1>
+      <p style="color: black;">I'm a Web Developer passionate about creating interactive websites and smooth user
+        experiences.</p>
+      <!----  <a href="#About" class="btn-box">Hire Me</a>     -->
+    </div>
+    <div class="home-img">
+      <img src="" alt="Profile" id="profileImage">
+    </div>
+  </section>
+
+  <section class="skills-section" id="skills">
+    <h1 style="color: #08d665;" class="sub-title">My Skills</h1>
+    <div class="skills-grid" id="skillsGrid"></div>
+  </section>
+
+  <section id="project">
+    <div class="main-text">
+      <h2 style="color: #08d665">Latest Projects</h2>
+      <div class="project-content" id="projectContent"></div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <h1 style="color: #08d665" class="sub-title">Certifications</h1>
+    <div class="certifications-list" id="certList"></div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-text">
+      <h2 style="color: #08d665">Contact</h2>
+      <h4 style="color: black;">Let's work together</h4>
+      <p style="color: black;">I love to collaborate on cool ideas. Reach me via email or WhatsApp!</p>
+      <div class="contact-list" id="contactInfo"></div>
+    </div>
+  </section>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("portfolioData"));
+    if (data) {
+      document.querySelector(".logo").textContent = data.name;
+      document.querySelector(".home-content h1").textContent = `I'm ${data.name}`;
+      document.querySelector(".home-content p").textContent = data.about;
+      document.getElementById("profileImage").src = data.photo;
+
+      const skillsGrid = document.getElementById("skillsGrid");
+      skillsGrid.innerHTML = "";
+      data.skills.forEach(skill => {
+        skillsGrid.innerHTML += `<div class="skill-card"><h3>${skill}</h3></div>`;
+      });
+
+      const projectContent = document.getElementById("projectContent");
+      projectContent.innerHTML = "";
+      data.projects.forEach(project => {
+        const imagesHTML = (project.images || []).map(img => `<img src="${img}" style="max-width:100px; margin:5px; border-radius:6px;" />`).join("");
+        projectContent.innerHTML += `
+        <div class="row">
+          <div class="layer">
+            <h5>${project.title}</h5>
+            <p>${project.description}</p>
+            <a href="${project.link}" target="_blank">🔗</a>
+            <div class="project-images">${imagesHTML}</div>
+          </div>
+        </div>`;
+      });
+
+      const certList = document.getElementById("certList");
+      certList.innerHTML = "";
+      data.certificates.forEach(cert => {
+        certList.innerHTML += `
+        <div>
+          <h3 style="color:black;">${cert.name}</h3>
+          <img src="${cert.file}" style="max-width:100px" /><br />
+          <a href="${cert.link}" target="_blank">View Certificate</a>
+        </div>`;
+      });
+
+      const contact = document.getElementById("contactInfo");
+      contact.innerHTML = `
+      <li style="color: black;"><i class="bx bxs-send"></i> ${data.email}</li>
+      <li style="color: black;"><i class="bx bxs-phone"></i> ${data.phone}</li>
+      <li style="color: black;"><i class="bx bxs-map"></i> ${data.address}</li>
+    `;
+    }
+  </script>
+
+</body>
+
+</html>
